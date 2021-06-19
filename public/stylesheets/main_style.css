@@ -12,7 +12,7 @@ body{
   width: 400px;
 }
 
-#record{
+.record{
   background-color: #F7F7F7;
 }
 
@@ -39,4 +39,8 @@ body{
 .btn{
   width: 250px;
   text-align: center;
+}
+
+.icon{
+  width: 70px;
 }
