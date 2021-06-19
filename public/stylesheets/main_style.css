@@ -1,3 +1,42 @@
-#sort{
-  width: 700px;
+body{
+  font-family: 'Noto Sans TC', sans-serif;
+  color: #5A5A5A;
+}
+
+.navbar{
+  font-weight: bold;
+  color: black;
+}
+
+.main-view{
+  width: 400px;
+}
+
+#record{
+  background-color: #F7F7F7;
+}
+
+.filter{
+  width: 548px;
+}
+
+#total-amount{
+  color: #E89F7B;
+  font-weight: bold;
+  font-size: 80px;
+}
+
+.control-word{
+  text-decoration: none;
+  color: #5A5A5A;
+  font-size: 24px;
+}
+
+.new-button{
+  width: 400px;
+}
+
+.btn{
+  width: 250px;
+  text-align: center;
 }
