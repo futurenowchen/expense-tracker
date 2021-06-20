@@ -1,3 +1,4 @@
+{{!-- 類別轉換icon的function --}}
 <script>
   function categoryOutput(category, id) {
     let categoryOutput = document.querySelector('#' + id)
@@ -64,7 +65,9 @@
     </div>
     {{/each}}
 
-    <div class="new-button d-flex justify-content-center">
-      <button type="button" class="btn btn-primary my-5">新增支出</button>
-    </div>
+    <form action="/records/new">
+      <div class="new-button d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary my-5">新增支出</button>
+      </div>
+    </form>
   </div>
