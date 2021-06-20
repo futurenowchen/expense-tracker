@@ -48,3 +48,15 @@ body{
 #categories{
   width: 234px;
 }
+
+.button_delete{
+  background-color:white;
+  border-color:white;
+  border: 0;
+}
+
+@media (min-width: 992px){
+  .enter-word{
+    width: 186px;
+  }
+}

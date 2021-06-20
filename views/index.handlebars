@@ -60,7 +60,9 @@
       </div>
       <div class="control ms-5">
         <a href="/records/{{this._id}}/edit" class="ms-3 control-word">修改</a>
-        <a href="" class="ms-3 control-word">刪除</a>
+        <form action="/records/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
+          <button type="submit" class="button_delete control-word">刪除</button>
+        </form>
       </div>
     </div>
     {{/each}}

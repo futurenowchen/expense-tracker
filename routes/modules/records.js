@@ -28,4 +28,30 @@ router.get('/:record_id/edit', (req, res) => {
     .then((record) => res.render('edit', { record }))
 })
 
+//修改支出記錄功能路由
+router.put('/:record_id', (req, res) => {
+  const id = req.params.record_id
+  const editRecord = req.body
+  return Record.findById(id)
+    .then(records => {
+      records.name = editRecord.name,
+        records.category = editRecord.categories,
+        records.date = editRecord.date,
+        records.amount = editRecord.amount
+      return records.save()
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+
+//刪除支出記錄路由
+router.delete('/:record_id', (req, res) => {
+  const id = req.params.record_id
+  return Record.findById(id)
+    .then(records => records.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
 module.exports = router
