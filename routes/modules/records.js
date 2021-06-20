@@ -20,6 +20,25 @@ router.post('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
+router.post('/category', (req, res) => {
+  const filterSelect = req.body.filterSelect
+  console.log(filterSelect)
+  if (filterSelect === '不分類') {
+    res.redirect('/')
+  } else {
+    Record.find({ 'category': { $regex: filterSelect, $options: '$i' } })
+      .lean()
+      .then(records => {
+        let totalAmount = 0
+        for (let i = 0; i < records.length; i++) {
+          totalAmount += Number(records[i].amount)
+        }
+        res.render('index', { records, totalAmount, filterSelect })
+      })
+      .catch(error => console.log(error))
+  }
+})
+
 //修改支出記錄頁面路由
 router.get('/:record_id/edit', (req, res) => {
   const id = req.params.record_id

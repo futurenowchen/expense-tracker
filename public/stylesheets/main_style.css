@@ -55,8 +55,11 @@ body{
   border: 0;
 }
 
-@media (min-width: 992px){
+@media (max-width: 1200px){
   .enter-word{
     width: 186px;
+  }
+  .required-word{
+    width: 108px;
   }
 }
