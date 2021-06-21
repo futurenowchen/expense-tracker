@@ -1,4 +1,4 @@
-# restaurant_project
+# expense-tracker
 
 ## About The Project
   This is a ALPHA Camp 2-3 exercise website which can record cost and it's category.
