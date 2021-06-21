@@ -1,6 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const Record = require('../../models/Record')
+const Category = require('../../models/Category')
+const totalAmountCount = require('../../tools/totalAmountCount')
+const categoryIconSwitch = require('../../tools/categoryIconSwitch')
+
+let totalAmount = 0
 
 //新增支出記錄頁面路由
 router.get('/new', (req, res) => {
@@ -20,19 +25,17 @@ router.post('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
+//篩選類別路由
 router.post('/category', (req, res) => {
   const filterSelect = req.body.filterSelect
-  console.log(filterSelect)
   if (filterSelect === '不分類') {
     res.redirect('/')
   } else {
     Record.find({ 'category': { $regex: filterSelect, $options: '$i' } })
       .lean()
       .then(records => {
-        let totalAmount = 0
-        for (let i = 0; i < records.length; i++) {
-          totalAmount += Number(records[i].amount)
-        }
+        totalAmount = totalAmountCount(records, totalAmount)
+        categoryIconSwitch(records, Category)
         res.render('index', { records, totalAmount, filterSelect })
       })
       .catch(error => console.log(error))

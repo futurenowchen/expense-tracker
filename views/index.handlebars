@@ -50,9 +50,11 @@
     <div class="detail d-flex align-items-center">
       <div class="record d-flex bd-highlight align-items-center main-view px-3">
         <span class="icon p-2 bd-highlight " style="font-size: 48px; color: #A9DCE6" id="A{{this._id}}">
+          {{!--
           <script>
             categoryOutput('{{ this.category }}', 'A{{ this._id }}')
-          </script>
+          </script> --}}
+          <i class="{{this.category}}"></i>
         </span>
         <span class="main-info p-2 bd-highlight">
           <h4 class="m-0">{{this.name}}</h4>
