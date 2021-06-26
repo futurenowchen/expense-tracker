@@ -27,7 +27,7 @@
  ```
 3. run the seeder data
 ```
- $ node models/seeds/categorySeeder.js && node models/seeds/recordSeeder.js
+ $ run seed
 ```
 4. start this website.
  ```
