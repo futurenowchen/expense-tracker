@@ -33,10 +33,7 @@
  ```
  $ npm run dev
  ```
-or
- ```
- $ nodemon app.js
- ```
+
 ## Features
 ### Version 1
 + 使用者可以瀏覽「老爸的私房錢」資料庫中所有的支出明細。

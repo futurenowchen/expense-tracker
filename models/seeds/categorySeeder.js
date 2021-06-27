@@ -1,7 +1,7 @@
 const Category = require('../Category')
 const db = require('../../config/mongoose')
 
-const CategorySeeder = [
+const categorySeeder = [
   {
     category: "家居物業",
     icon: "fas fa-home"
@@ -25,7 +25,7 @@ const CategorySeeder = [
 ]
 
 db.once('open', () => {
-  CategorySeeder.forEach((category) => {
+  categorySeeder.forEach((category) => {
     Category.create({
       category: category.category,
       icon: category.icon
