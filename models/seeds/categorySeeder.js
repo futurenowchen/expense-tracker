@@ -30,6 +30,10 @@ db.once('open', () => {
       category: category.category,
       icon: category.icon
     })
+      .then(() => {
+        return db.close()
+      })
   })
-  console.log('done')
+  console.log('categorySeeder done')
+  console.log('DB connection closed.')
 })

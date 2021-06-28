@@ -48,6 +48,10 @@ db.once('open', () => {
       date: record.date,
       amount: record.amount
     })
+      .then(() => {
+        return db.close()
+      })
   })
-  console.log('done')
+  console.log('recordSeeder done')
+  console.log('DB connection closed.')
 })
