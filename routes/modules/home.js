@@ -13,9 +13,7 @@ router.get('/', (req, res) => {
     .then(results => {
       const [records, categories] = results
       totalAmount = totalAmountCount(records, totalAmount)
-      records.forEach(record => {
-        record.category = categoryIconSwitch(record.category, categories)
-      })
+      categoryIconSwitch(records, categories)
       res.render('index', { records, totalAmount, filterSelect })
     })
     .catch(error => console.log(error))

@@ -1,6 +1,12 @@
-function categoryIconSwitch(categoryName, categories) {
-  const category = categories.find(category => category.category === categoryName)
-  return category.icon
+function categoryIconSwitch(records, categories) {
+  records.forEach(record => {
+    categories.forEach(category => {
+      if (record.category === category.category) {
+        record.category = category.icon
+      }
+    })
+  })
+  return records
 }
 
 module.exports = categoryIconSwitch

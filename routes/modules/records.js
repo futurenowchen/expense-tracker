@@ -31,11 +31,12 @@ router.post('/category', (req, res) => {
   if (filterSelect === '不分類') {
     res.redirect('/')
   } else {
-    Record.find({ 'category': { $regex: filterSelect, $options: '$i' } })
-      .lean()
-      .then(records => {
+    Promise.all([Record.find({ 'category': { $regex: filterSelect, $options: '$i' } })
+      .lean(), Category.find().lean()])
+      .then(results => {
+        const [records, categories] = results
         totalAmount = totalAmountCount(records, totalAmount)
-        categoryIconSwitch(records, Category)
+        categoryIconSwitch(records, categories)
         res.render('index', { records, totalAmount, filterSelect })
       })
       .catch(error => console.log(error))
