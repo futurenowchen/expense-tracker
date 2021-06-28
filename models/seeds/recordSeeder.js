@@ -41,17 +41,13 @@ const recordSeeder = [
 ]
 
 db.once('open', () => {
-  recordSeeder.forEach((record) => {
-    Record.create({
-      name: record.name,
-      category: record.category,
-      date: record.date,
-      amount: record.amount
+  Record.create(recordSeeder)
+    .then(() => {
+      console.log('recordSeeder done')
+      return db.close()
     })
-      .then(() => {
-        return db.close()
-      })
-  })
-  console.log('recordSeeder done')
-  console.log('DB connection closed.')
+    .then(() => {
+      console.log('mongodb disconnected!')
+    })
+    .catch(err => console.log(err))
 })

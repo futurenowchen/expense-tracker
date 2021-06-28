@@ -25,15 +25,13 @@ const categorySeeder = [
 ]
 
 db.once('open', () => {
-  categorySeeder.forEach((category) => {
-    Category.create({
-      category: category.category,
-      icon: category.icon
+  Category.create(categorySeeder)
+    .then(() => {
+      console.log('categorySeeder done')
+      return db.close()
     })
-      .then(() => {
-        return db.close()
-      })
-  })
-  console.log('categorySeeder done')
-  console.log('DB connection closed.')
+    .then(() => {
+      console.log('mongodb disconnected!')
+    })
+    .catch(err => console.log(err))
 })
