@@ -9,11 +9,13 @@ let totalAmount = 0
 //show all record router
 router.get('/', (req, res) => {
   const filterSelect = '類別'
-  Record.find()
-    .lean()
-    .then(records => {
+  Promise.all([Record.find().lean(), Category.find().lean()])
+    .then(results => {
+      const [records, categories] = results
       totalAmount = totalAmountCount(records, totalAmount)
-      categoryIconSwitch(records, Category)
+      records.forEach(record => {
+        record.category = categoryIconSwitch(record.category, categories)
+      })
       res.render('index', { records, totalAmount, filterSelect })
     })
     .catch(error => console.log(error))

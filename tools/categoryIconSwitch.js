@@ -1,25 +1,7 @@
-async function categoryIconSwitch(records, Category) {
-  const categorySwitch = []
-  await Category.find()
-    .lean()
-    .then(categories => {
-      categories.forEach(category => {
-        categorySwitch.push(category)
-      })
-    })
-  if (categorySwitch.length > 0) {
-    records.forEach(record => {
-      categorySwitch.forEach(category => {
-        if (record.category === category.category) {
-          record.category = category.icon
-        }
-      })
-    })
-  } else {
-    console.log('icon switch error!')
-  }
+function categoryIconSwitch(categoryName, categories) {
+  const category = categories.find(category => category.category === categoryName)
+  return category.icon
 }
-
 
 module.exports = categoryIconSwitch
 
