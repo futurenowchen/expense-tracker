@@ -9,7 +9,8 @@ let totalAmount = 0
 //show all record router
 router.get('/', (req, res) => {
   const filterSelect = '類別'
-  Promise.all([Record.find().lean(), Category.find().lean()])
+  const userId = req.user._id
+  Promise.all([Record.find({ userId }).lean(), Category.find().lean()])
     .then(results => {
       const [records, categories] = results
       totalAmount = totalAmountCount(records, totalAmount)

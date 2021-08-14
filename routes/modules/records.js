@@ -14,12 +14,14 @@ router.get('/new', (req, res) => {
 
 //新增支出記錄功能路由
 router.post('/', (req, res) => {
+  const userId = req.user._id
   const newRecord = req.body
   return Record.create({
     name: newRecord.name,
     category: newRecord.categories,
     date: newRecord.date,
-    amount: newRecord.amount
+    amount: newRecord.amount,
+    userId: userId
   })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
@@ -27,11 +29,17 @@ router.post('/', (req, res) => {
 
 //篩選類別路由
 router.post('/category', (req, res) => {
+  const userId = req.user._id
   const filterSelect = req.body.filterSelect
   if (filterSelect === '不分類') {
     res.redirect('/')
   } else {
-    Promise.all([Record.find({ 'category': { $regex: filterSelect, $options: '$i' } })
+    Promise.all([Record.find({
+      '$and': [
+        { userId },
+        { 'category': { $regex: filterSelect, $options: '$i' } }
+      ]
+    })
       .lean(), Category.find().lean()])
       .then(results => {
         const [records, categories] = results
@@ -45,17 +53,19 @@ router.post('/category', (req, res) => {
 
 //修改支出記錄頁面路由
 router.get('/:record_id/edit', (req, res) => {
-  const id = req.params.record_id
-  return Record.findById(id)
+  const userId = req.user._id
+  const _id = req.params.record_id
+  return Record.findOne({ _id, userId })
     .lean()
     .then((record) => res.render('edit', { record }))
 })
 
 //修改支出記錄功能路由
 router.put('/:record_id', (req, res) => {
-  const id = req.params.record_id
+  const userId = req.user._id
+  const _id = req.params.record_id
   const editRecord = req.body
-  return Record.findById(id)
+  return Record.findOne({ _id, userId })
     .then(records => {
       records.name = editRecord.name,
         records.category = editRecord.categories,
@@ -70,8 +80,9 @@ router.put('/:record_id', (req, res) => {
 
 //刪除支出記錄路由
 router.delete('/:record_id', (req, res) => {
-  const id = req.params.record_id
-  return Record.findById(id)
+  const userId = req.user._id
+  const _id = req.params.record_id
+  return Record.findOne({ _id, userId })
     .then(records => records.remove())
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
