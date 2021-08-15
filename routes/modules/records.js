@@ -21,6 +21,7 @@ router.post('/', (req, res) => {
     category: newRecord.categories,
     date: newRecord.date,
     amount: newRecord.amount,
+    merchant: newRecord.merchant,
     userId: userId
   })
     .then(() => res.redirect('/'))
@@ -70,7 +71,8 @@ router.put('/:record_id', (req, res) => {
       records.name = editRecord.name,
         records.category = editRecord.categories,
         records.date = editRecord.date,
-        records.amount = editRecord.amount
+        records.amount = editRecord.amount,
+        records.merchant = editRecord.merchant
       return records.save()
     })
     .then(() => res.redirect('/'))

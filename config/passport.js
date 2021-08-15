@@ -18,7 +18,7 @@ module.exports = app => {
     User.findOne({ email })
       .then(user => {
         if (!user) {
-          return done(null, false, req.flash("warning_msg", "這個 email 已經被註冊過了！"))
+          return done(null, false, req.flash("warning_msg", "沒有這個使用者！請重新確認帳號！"))
         }
         return bcrypt.compare(password, user.password).then((isMatched) => {
           if (!isMatched) {
