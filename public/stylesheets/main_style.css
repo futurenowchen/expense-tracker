@@ -17,7 +17,11 @@ body{
 }
 
 .filter{
-  width: 548px;
+  max-width: 548px;
+}
+
+.filter-view{
+  width: 200px;
 }
 
 #total-amount{

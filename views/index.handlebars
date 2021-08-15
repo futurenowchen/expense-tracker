@@ -1,51 +1,72 @@
-{{!-- 類別 --}}
-<div id="filter" class="d-flex flex-column align-items-center">
-
-  <div class="filter d-flex justify-content-start m-0">
+<div id="filter" class="">
+  <div class="filter d-flex justify-content-start mx-auto">
     <div class="form-group my-5">
       <form action="/records/filter" method="POST">
-        <label for="sort" class="mb-0"></label>
-        <select class="main-view" name="filterSelect" id="filterSelect"
-          onchange="action='/records/category'; submit();">
-          <option>{{filterSelect}}</option>
-          <option value="不分類">不分類</option>
-          <option value="家居物業">家居物業</option>
-          <option value="交通出行">交通出行</option>
-          <option value="休閒娛樂">休閒娛樂</option>
-          <option value="餐飲食品">餐飲食品</option>
-          <option value="其他">其他</option>
-        </select>
+        <div>
+          <label for="sort" class="mb-0"></label>
+          <select class="filter-view" name="filterSelectByMonth" id="filterSelectByMonth"
+            onchange="action='/records/category'; submit();">
+            <option value="allMonth" selected disabled>月份</option>
+            <option value="一月">一月</option>
+            <option value="二月">二月</option>
+            <option value="三月">三月</option>
+            <option value="四月">四月</option>
+            <option value="五月">五月</option>
+            <option value="六月">六月</option>
+            <option value="七月">七月</option>
+            <option value="八月">八月</option>
+            <option value="九月">九月</option>
+            <option value="十月">十月</option>
+            <option value="十一月">十一月</option>
+            <option value="十二月">十二月</option>
+            <option {{#if filterSelectByMonth}} selected {{/if}}>{{filterSelectByMonth}}</option>
+          </select>
+        </div>
+        <div class="form-group my-5">
+          <label for="sort" class="mb-0"></label>
+          <select class="filter-view" name="filterSelect" id="filterSelect"
+            onchange="action='/records/category'; submit();">
+            <option value="allCategory" selected disabled>分類</option>
+            <option value="家居物業">家居物業</option>
+            <option value="交通出行">交通出行</option>
+            <option value="休閒娛樂">休閒娛樂</option>
+            <option value="餐飲食品">餐飲食品</option>
+            <option value="其他">其他</option>
+            <option {{#if filterSelect}} selected {{/if}}>{{filterSelect}}</option>
+          </select>
+        </div>
       </form>
     </div>
   </div>
+</div>
 
-  <div id="dataPanel" class="d-flex flex-column">
-    <h4 class="main-view mb-0">總金額：</h4>
-    <h1 class="main-view d-flex justify-content-end mb-4" id="total-amount">{{totalAmount}}</h1>
-    {{# each records}}
-    <div class="detail d-flex align-items-center">
-      <div class="record d-flex bd-highlight align-items-center main-view px-3">
-        <span class="icon p-2 bd-highlight " style="font-size: 48px; color: #A9DCE6" id="A{{this._id}}">
-          <i class="{{this.category}}"></i>
-        </span>
-        <span class="main-info p-2 bd-highlight">
-          <h4 class="m-0">{{this.name}}</h4>
-          <small>{{this.date}}</small>
-        </span>
-        <span class="amount ms-auto p-2 bd-highlight">{{this.amount}}</span>
-      </div>
-      <div class="control ms-5">
-        <a href="/records/{{this._id}}/edit" class="ms-3 control-word">修改</a>
-        <form action="/records/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="button_delete control-word">刪除</button>
-        </form>
-      </div>
+<div id="dataPanel" class="d-flex flex-column align-items-center">
+  <h4 class="main-view mb-0">總金額：</h4>
+  <h1 class="main-view d-flex justify-content-end mb-4" id="total-amount">{{totalAmount}}</h1>
+  {{# each records}}
+  <div class="detail d-flex align-items-center">
+    <div class="record d-flex bd-highlight align-items-center main-view px-3">
+      <span class="icon p-2 bd-highlight " style="font-size: 48px; color: #A9DCE6" id="A{{this._id}}">
+        <i class="{{this.category}}"></i>
+      </span>
+      <span class="main-info p-2 bd-highlight">
+        <h4 class="m-0">{{this.name}}</h4>
+        <small>{{this.date}}</small>
+      </span>
+      <span class="amount ms-auto p-2 bd-highlight">{{this.amount}}</span>
     </div>
-    {{/each}}
-
-    <form action="/records/new">
-      <div class="new-button d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary my-5">新增支出</button>
-      </div>
-    </form>
+    <div class="control ms-5">
+      <a href="/records/{{this._id}}/edit" class="ms-3 control-word">修改</a>
+      <form action="/records/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
+        <button type="submit" class="button_delete control-word">刪除</button>
+      </form>
+    </div>
   </div>
+  {{/each}}
+
+  <form action="/records/new">
+    <div class="new-button d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary my-5">新增支出</button>
+    </div>
+  </form>
+</div>

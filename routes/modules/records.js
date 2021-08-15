@@ -4,6 +4,8 @@ const Record = require('../../models/Record')
 const Category = require('../../models/Category')
 const totalAmountCount = require('../../tools/totalAmountCount')
 const categoryIconSwitch = require('../../tools/categoryIconSwitch')
+const dataFormat = require('../../tools/dataFormat')
+const filterByMonth = require('../../tools/filterByMonth')
 
 let totalAmount = 0
 
@@ -32,24 +34,31 @@ router.post('/', (req, res) => {
 router.post('/category', (req, res) => {
   const userId = req.user._id
   const filterSelect = req.body.filterSelect
-  if (filterSelect === '不分類') {
-    res.redirect('/')
-  } else {
-    Promise.all([Record.find({
-      '$and': [
-        { userId },
-        { 'category': { $regex: filterSelect, $options: '$i' } }
-      ]
-    })
-      .lean(), Category.find().lean()])
-      .then(results => {
-        const [records, categories] = results
-        totalAmount = totalAmountCount(records, totalAmount)
-        categoryIconSwitch(records, categories)
-        res.render('index', { records, totalAmount, filterSelect })
+  const filterSelectByMonth = req.body.filterSelectByMonth
+  const recordPromise = Record.find({ userId }).lean().sort({ _id: 'asc' })
+  const categoryPromise = Category.find().lean()
+
+  Promise.all([recordPromise, categoryPromise])
+    .then(results => {
+      const [records, categories] = results
+
+      const filteredRecords = records.filter(record => {
+        if (filterSelect && filterSelectByMonth) {
+          return record.category === filterSelect && filterByMonth(record, filterSelectByMonth)
+        } else if (filterSelect) {
+          return record.category === filterSelect
+        } else if (filterSelectByMonth) {
+          return filterByMonth(record, filterSelectByMonth)
+        } else {
+          return records
+        }
       })
-      .catch(error => console.log(error))
-  }
+      categoryIconSwitch(records, categories)
+      totalAmount = totalAmountCount(filteredRecords, totalAmount)
+      dataFormat(filteredRecords)
+      res.render('index', { records: filteredRecords, totalAmount, filterSelect, filterSelectByMonth })
+    })
+    .catch(error => console.log(error))
 })
 
 //修改支出記錄頁面路由
