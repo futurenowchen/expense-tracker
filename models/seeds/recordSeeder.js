@@ -31,7 +31,7 @@ const recordSeeders = [
     name: "電影：驚奇隊長",
     category: "休閒娛樂",
     date: "2019-04-23",
-    amount: 220
+    amount: 220,
     merchant: "華納威秀"
   },
   {
@@ -48,28 +48,28 @@ const recordSeeders = [
   }
 ]
 
-const SEED_USER = {
+const SEED_USER = [{
   name: 'root',
   email: 'root@example.com',
-  password: '12345678'
-}
+  password: '12345678',
+  records: recordSeeders
+}]
 
 db.once('open', () => {
-  bcrypt
-    .genSalt(10)
-    .then(salt => bcrypt.hash(SEED_USER.password, salt))
-    .then(hash => User.create({
-      name: SEED_USER.name,
-      email: SEED_USER.email,
-      password: hash
-    }))
-    .then(user => {
-      const userId = user._id
-      return Promise.all(Array.from(recordSeeders, (recordSeeder) => {
-        const { name, category, date, amount } = recordSeeder
-        Record.create({ recordSeeder, userId })
-      }))
-    })
+  Promise.all(Array.from(SEED_USER, (seedUser) => {
+    const { name, email, password, records } = seedUser
+    return bcrypt
+      .genSalt(10)
+      .then(salt => bcrypt.hash(password, salt))
+      .then(hash => User.create({ name, email, password: hash }))
+      .then(user => {
+        return Promise.all(Array.from(records, (record) => {
+          const { name, category, date, amount, merchant } = record
+          const userId = user._id
+          return Record.create({ name, category, date, amount, merchant, userId })
+        }))
+      })
+  }))
     .then(() => {
       console.log('done.')
       process.exit()
